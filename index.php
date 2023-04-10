@@ -73,25 +73,23 @@ $db = new DbConfig();
 <div class="cadastro-ui">
     <form class="form-cadastro">
         <h2>Cadastre-se</h2>
-        <input type="text" id="nome" name="nome" class="input-cadastro" placeholder="Nome">
+        <input type="text" id="nome" name="nome" class="input-cadastro" placeholder="Nome" >
 
-        <input type="text" id="email" name="email" class="input-cadastro" placeholder="E-mail">
+        <input type="text" id="email" name="email" class="input-cadastro" placeholder="E-mail" >
 
-        <input type="text" id="telefone" name="telefone" class="input-cadastro" placeholder="Telefone">
+        <input type="text" id="telefone" name="telefone" class="input-cadastro" placeholder="Telefone" >
 
         <div style="display: flex; width: 80%; font-size: 200%">
             <label for="termos"
                    style="color: #0b53be; font-weight: bold; font-size: 150%; padding: 10px; margin-top: 20px">
-                <input type="checkbox" name="termos" id="termos" style="height: 100px; width: 100px ">
+                <input type="checkbox" name="termos" id="termos" style="height: 100px; width: 100px " >
                 Aceito os termos de uso
             </label>
         </div>
 
+        <p style="font-size: 200%; color: indianred; display: none; margin-bottom: -20px" id="alert"> Preencha todos os campos </p>
 
-        <p style="font-size: 200%; color: indianred; display: none" id="alert"> Preencha todos os campos </p>
-
-
-        <button class="cadastro-button" type="button" id="cadastro" style="margin-top: 400px">Cadastrar</button>
+        <button class="cadastro-button" type="button" id="cadastro" style="margin-top: 350px">Cadastrar</button>
 
     </form>
 </div>
@@ -112,17 +110,17 @@ $db = new DbConfig();
                 </tbody>
             </table>
             <div class="row flex">
-                <div class="col-6">
+                <div class="col-12">
                     <button class="cadastro-button" style="margin-top: 580px; width: 100%" type="button"
                             id="btn-cadastro">
                         Cadastro
                     </button>
                 </div>
-                <div class="col-6">
-                    <button class="cadastro-button" type="button" id="btn-jogar"
-                            style="margin-top: 580px; width: 100%">Jogar
-                    </button>
-                </div>
+<!--                <div class="col-6">-->
+<!--                    <button class="cadastro-button" type="button" id="btn-jogar"-->
+<!--                            style="margin-top: 580px; width: 100%">Jogar-->
+<!--                    </button>-->
+<!--                </div>-->
             </div>
         </div>
 
@@ -150,7 +148,7 @@ $db = new DbConfig();
             <p id="pontuacao"></p>
         </div>
         <!--<canvas id="canvas" width="1080" height="1770"></canvas>-->
-        <canvas id="canvas" width="1080" height="1460"></canvas>
+        <canvas id="canvas" width="800" height="1460"></canvas>
         <!--<p><b>INSTRUCTIONS:</b>
             <- Left and Right arrow keys to move ->
         </p>
@@ -207,11 +205,11 @@ $db = new DbConfig();
         }
     })
 
-    btn_jogar.addEventListener('click', function () {
-        div_ranking.hide();
-        div_cadastro.hide();
-        div_start.show();
-    })
+    // btn_jogar.addEventListener('click', function () {
+    //     div_ranking.hide();
+    //     div_cadastro.hide();
+    //     div_start.show();
+    // })
 
     btn_cadastro.addEventListener('click', function () {
         div_cadastro.show();

@@ -33,16 +33,22 @@ const solutionOptions = {
 /**
  * ======================================================================================
  */
+// VARIAVEIS DO GAME
+let velocityObjects = 1;
+let velocityCar = 30;
+let innitialLives = 3;
 
+
+// VARIAVEIS DO CANVAS (NÃO ALTERAR)
 var canvas = document.getElementById("canvas");
 var contxt = canvas.getContext("2d");
 var lefty = false;
 var righty = false;
 var gameOver = true;
 var score = 0;
-var lives = 3;
 var track = 0;
 var badTrack = 0;
+var lives = 3;
 var level = 1;
 
 /**
@@ -319,9 +325,6 @@ new controls.ControlPanel(controlsElement, solutionOptions)
         videoElement.classList.toggle("selfie", options.selfieMode);
         faceMesh.setOptions(options);
     });
-/**
- * ======================================================================================
- */
 
 
 document.addEventListener("keydown", keysDown, false);
@@ -369,7 +372,6 @@ var player = {
     y: distHei - (distHei * 0.34),
     color: "green"
 };
-console.log(player.sizeW, player.sizeH)
 
 // specs for balls you want to collect
 var goodArc = {
@@ -398,7 +400,14 @@ var rad = 10;
 // adds value to x property of goodArc
 function drawNewGood() {
     if (Math.random() < .0175) {
-        goodArc.x.push(Math.random() * canvas.width - 225);
+        let positionX = Math.random() * canvas.width - 225;
+
+        positionX < 200 ? positionX = 200 : positionX;
+        positionX > 600 ? positionX = 600 : positionX;
+
+
+        console.log("Random", positionX);
+        goodArc.x.push(positionX);
         goodArc.y.push(0);
         goodArc.state.push(true);
 
@@ -451,49 +460,26 @@ function drawRedBall() {
     }
 }
 
-// draws black ball to avoid
-function drawBlackBall() {
-    for (var i = 0; i < blackNum; i++) {
-        //Keeps track of position in color array with changing blackNum size
-        var badCol = (i + badTrack);
-
-        contxt.beginPath();
-        contxt.arc(badArc.x[i], badArc.y[i], rad, 0, Math.PI * 2);
-        contxt.fillStyle = badArc.color[badCol % 5];
-        contxt.fill();
-        contxt.closePath();
-    }
-}
-
 // draw player to canvas
 function drawPlayer() {
-
-    var img = document.getElementById("caminhao");
+    let img = document.getElementById("caminhao");
     contxt.beginPath();
-    /*contxt.rect(player.x, player.y, player.size, player.size);
-    contxt.fillStyle = player.color;*/
     contxt.drawImage(img, player.x, player.y, player.sizeW, player.sizeH);
-    //contxt.drawImage(img, (distWidth - 100) / 2, distHei - 100, 80, 20);
     contxt.fill();
     contxt.closePath();
-    /*var img = document.getElementById("caminhao");
-    contxt.drawImage(img, player.x, player.y);*/
 }
 
 // moves objects in play
-function playUpdate() {
+async function playUpdate() {
 
     if (lefty && player.x > 0) {
-        player.x -= 27;
+        player.x -= velocityCar;
     }
     if (righty && player.x + player.size < canvas.width - 275) {
-        player.x += 27;
+        player.x += velocityCar;
     }
     for (var i = 0; i < redNum; i++) {
         goodArc.y[i] += 2;//goodArc.speed;
-    }
-    for (var i = 0; i < blackNum; i++) {
-        badArc.y[i] += 2; //badArc.speed;
     }
 
     // collision detection
@@ -506,27 +492,44 @@ function playUpdate() {
                 goodArc.vW[num] && player.x +
                 player.sizeW + goodArc.vW[num] > goodArc.x[i]
                 && player.y < goodArc.y[i] + goodArc.vH[num]
-                && player.y + player.sizeH > goodArc.y[i]) {
+                && player.y + player.sizeH - 20 > goodArc.y[i]) {
                 score++
-                // Cycles through goodArc's color array
-                player.color = goodArc.color[(i + track) % 9];
+                // // Cycles through goodArc's color array
+                // player.color = goodArc.color[(i + track) % 9];
 
                 goodArc.state[i] = false;
-                goodArc.x.shift();
-                goodArc.y.shift();
-                goodArc.state.shift();
+                // goodArc.x.pop();
+                // goodArc.y.pop();
+                // goodArc.state.pop();
+
+                // delete goodArc.x[i];
+                // delete goodArc.y[i];
+                // delete goodArc.state[i];
+                //
+                // console.log(goodArc, i, "Pegou")
+                // return;
             }
         }
         // Removes circles from array that are no longer in play
         //if (goodArc.y[i] + rad > canvas.height) {
-        if (goodArc.y[i] + goodArc.vH[num] > canvas.height) {
+
+        if ((goodArc.y[i] + goodArc.vH[num]) > canvas.height) {
+            console.log(goodArc.y[i] + goodArc.vH[num], canvas.height);
             goodArc.x.shift();
             goodArc.y.shift();
             goodArc.state.shift();
             track++;
 
+            if (goodArc.state[i]){
+                console.log(goodArc.y[i] + goodArc.vH[num], canvas.height, JSON.stringify(goodArc));
+                // if ((goodArc.y[i] + goodArc.vH[num]) > canvas.height) {
+                    lives--;
+                // }
+
+
+            }
+
             // config para dar gameover
-            lives--;
             if (lives <= 0) {
                 gamesOver();
                 telaGameOver();
@@ -585,16 +588,14 @@ function playAgain() {
     player.color = "green";
     level = 1;
     score = 0;
-    lives = 3;
-    badArc.speed = 2;
-    goodArc.speed = 2;
+    lives = innitialLives;
+    badArc.speed = velocityObjects;
+    goodArc.speed = velocityObjects;
 }
 
 function showHidden(showid, hiddenid) {
     document.getElementById(showid).style.display = 'block';
-    // hide the lorem ipsum text
     document.getElementById(hiddenid).style.display = 'none';
-    // hide the link
 }
 
 function iniciarGame() {
@@ -682,13 +683,13 @@ function getDadosPlayer() {
 let pontuacaoP = document.getElementById("pontuacao");
 let finalPontuacao = document.getElementById("end-pontuacao");
 
-function draw() {
+async function draw() {
     contxt.clearRect(0, 0, canvas.width, canvas.height);
     if (!gameOver) {
         drawPlayer();
         //drawBlackBall();
         drawRedBall();
-        playUpdate();
+        await playUpdate();
         drawNewGood();
         //drawNewBad();
 
@@ -719,4 +720,4 @@ function draw() {
 }
 
 
-draw();
+await draw();

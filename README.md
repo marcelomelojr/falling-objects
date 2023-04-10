@@ -12,6 +12,9 @@ Para executar este projeto, siga as etapas abaixo:
   comando na raiz do projeto: php -S localhost:8000
 - Acesse o jogo em seu navegador usando o endereço http://localhost:8000
 
+## Database
+- O arquivo `database.sql` contém o script para criação do banco de dados e da tabela necessárias para o funcionamento do jogo.
+
 ## Importante
 
 O jogo deve ser executado na resolução 1080x1920. Caso contrário, os objetos podem ficar fora da tela.
