@@ -36,7 +36,7 @@ const solutionOptions = {
 // VARIAVEIS DO GAME
 let velocityObjects = 3;
 let velocityCar = 30;
-let innitialLives = 3;
+let innitialLives = 1;
 
 
 // VARIAVEIS DO CANVAS (NÃO ALTERAR)
@@ -402,8 +402,8 @@ function drawNewGood() {
     if (Math.random() < .0175) {
         let positionX = Math.random() * canvas.width - 225;
 
-        positionX < 200 ? positionX = 200 : positionX;
-        positionX > 600 ? positionX = 600 : positionX;
+        positionX < 150 ? positionX = 150 : positionX;
+        positionX > 650 ? positionX = 650 : positionX;
 
         goodArc.x.push(positionX);
         goodArc.y.push(0);
@@ -477,7 +477,7 @@ async function playUpdate() {
         player.x += velocityCar;
     }
     for (var i = 0; i < redNum; i++) {
-        goodArc.y[i] += 2;//goodArc.speed;
+        goodArc.y[i] += goodArc.speed;
     }
 
     // collision detection
@@ -551,9 +551,16 @@ async function playUpdate() {
     //     }
     // }
     switch (score) {
+        case 5:
+            goodArc.speed = 1.5 * velocityObjects;
+            break;
         case 10:
             badArc.speed = 3;
             goodArc.speed = 2 * velocityObjects;
+            level = 2;
+            break;
+        case 20:
+            goodArc.speed = 2 * velocityObjects
             level = 2;
             break;
         case 30:
