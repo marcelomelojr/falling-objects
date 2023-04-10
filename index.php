@@ -12,6 +12,7 @@ $db = new DbConfig();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Jogo caçada</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <script src="frontend/js/camera_utils.js" crossorigin="anonymous"></script>
     <script src="frontend/js/control_utils.js" crossorigin="anonymous"></script>
     <script src="frontend/js/drawing_utils.js" crossorigin="anonymous"></script>
@@ -43,7 +44,7 @@ $db = new DbConfig();
 
     <a class="abs logo" href="" target="_blank">
         <div style="display: flex;align-items: center;bottom: 0;right: 10px;">
-            <img class="logo" src="logo_white.png" alt="" style="height: 0px;">
+<!--            <img class="logo" src="logo_white.png" alt="" style="height: 0px;">-->
             <span class="title"></span>
         </div>
     </a>

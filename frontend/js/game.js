@@ -34,7 +34,7 @@ const solutionOptions = {
  * ======================================================================================
  */
 // VARIAVEIS DO GAME
-let velocityObjects = 1;
+let velocityObjects = 3;
 let velocityCar = 30;
 let innitialLives = 3;
 
@@ -327,8 +327,8 @@ new controls.ControlPanel(controlsElement, solutionOptions)
     });
 
 
-document.addEventListener("keydown", keysDown, false);
-document.addEventListener("keyup", keysUp, false);
+// document.addEventListener("keydown", keysDown, false);
+// document.addEventListener("keyup", keysUp, false);
 
 var button = document.getElementById("btn-start-game");
 button.addEventListener("click", iniciarGame, false);
@@ -337,25 +337,25 @@ var buttonStartAgain = document.getElementById("btn-restart-game");
 buttonStartAgain.addEventListener("click", restartGane, false);
 
 // when key is pressed down, move
-function keysDown(e) {
-    if (e.keyCode == 39) {
-        righty = true;
-    } else if (e.keyCode == 37) {
-        lefty = true;
-    } else if (e.keyCode == 32 && gameOver) {
-        playAgain();
-    }
-}
+// function keysDown(e) {
+//     if (e.keyCode == 39) {
+//         righty = true;
+//     } else if (e.keyCode == 37) {
+//         lefty = true;
+//     } else if (e.keyCode == 32 && gameOver) {
+//         playAgain();
+//     }
+// }
 
 // when key is released, stop moving
-function keysUp(e) {
-    if (e.keyCode == 39) {
-        righty = false;
-    } else if (e.keyCode == 37) {
-        lefty = false;
-    }
-
-}
+// function keysUp(e) {
+//     if (e.keyCode == 39) {
+//         righty = false;
+//     } else if (e.keyCode == 37) {
+//         lefty = false;
+//     }
+//
+// }
 
 var elementTam = document.getElementById('getTam');
 var distWidth = elementTam.clientWidth;
@@ -405,8 +405,6 @@ function drawNewGood() {
         positionX < 200 ? positionX = 200 : positionX;
         positionX > 600 ? positionX = 600 : positionX;
 
-
-        console.log("Random", positionX);
         goodArc.x.push(positionX);
         goodArc.y.push(0);
         goodArc.state.push(true);
@@ -492,7 +490,7 @@ async function playUpdate() {
                 goodArc.vW[num] && player.x +
                 player.sizeW + goodArc.vW[num] > goodArc.x[i]
                 && player.y < goodArc.y[i] + goodArc.vH[num]
-                && player.y + player.sizeH - 20 > goodArc.y[i]) {
+                && player.y + player.sizeH - 15 > goodArc.y[i]) {
                 score++
                 // // Cycles through goodArc's color array
                 // player.color = goodArc.color[(i + track) % 9];
@@ -502,9 +500,9 @@ async function playUpdate() {
                 // goodArc.y.pop();
                 // goodArc.state.pop();
 
-                // delete goodArc.x[i];
-                // delete goodArc.y[i];
-                // delete goodArc.state[i];
+                delete goodArc.x[i];
+                delete goodArc.y[i];
+                delete goodArc.state[i];
                 //
                 // console.log(goodArc, i, "Pegou")
                 // return;
@@ -514,14 +512,14 @@ async function playUpdate() {
         //if (goodArc.y[i] + rad > canvas.height) {
 
         if ((goodArc.y[i] + goodArc.vH[num]) > canvas.height) {
-            console.log(goodArc.y[i] + goodArc.vH[num], canvas.height);
+            // console.log(goodArc.y[i] + goodArc.vH[num], canvas.height);
             goodArc.x.shift();
             goodArc.y.shift();
             goodArc.state.shift();
             track++;
 
             if (goodArc.state[i]){
-                console.log(goodArc.y[i] + goodArc.vH[num], canvas.height, JSON.stringify(goodArc));
+                // console.log(goodArc.y[i] + goodArc.vH[num], canvas.height, JSON.stringify(goodArc));
                 // if ((goodArc.y[i] + goodArc.vH[num]) > canvas.height) {
                     lives--;
                 // }
@@ -553,19 +551,21 @@ async function playUpdate() {
     //     }
     // }
     switch (score) {
-        case 20:
+        case 10:
             badArc.speed = 3;
-            goodArc.speed = 3;
+            goodArc.speed = 2 * velocityObjects;
             level = 2;
             break;
         case 30:
+            goodArc.speed = 3 * velocityObjects
             level = 3;
             break;
         case 40:
-            goodArc.speed = 4;
+            goodArc.speed = 4 * velocityObjects
             level = 4;
             break;
         case 50:
+            goodArc.speed = 5 * velocityObjects
             level = 5;
             break;
     }
